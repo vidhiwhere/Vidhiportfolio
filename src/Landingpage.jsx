@@ -36,10 +36,11 @@ function Navbar() {
           display: flex;
           align-items: stretch;
           width: 100%;
-          height: 90px;
+          height: 160px;
           font-family: 'JetBrains Mono', monospace;
-          position: relative;
-          z-index: 10;
+          position: sticky;
+          top: 0;
+          z-index: 50;
         }
 
         .navbar-logo-block {
@@ -68,7 +69,7 @@ function Navbar() {
           display: inline-block;
           width: 9px;
           height: 1.1em;
-          background: #4dffb8;
+          background: #ffd23f;
           margin-left: 6px;
           vertical-align: text-bottom;
           animation: navbar-blink 1s step-end infinite;
@@ -105,7 +106,7 @@ function Navbar() {
         }
 
         .navbar-item:hover {
-          background: rgba(77, 255, 184, 0.08);
+          background: rgba(255, 210, 63, 0.1);
         }
 
         .navbar-item::before {
@@ -115,7 +116,7 @@ function Navbar() {
           bottom: 0;
           width: 100%;
           height: 2px;
-          background: #4dffb8;
+          background: #ffd23f;
           transform: scaleX(0);
           transform-origin: left;
           transition: transform 0.3s ease;
@@ -133,7 +134,7 @@ function Navbar() {
         }
 
         .navbar-label .navbar-prompt {
-          color: #4dffb8;
+          color: #ffd23f;
           margin-right: 6px;
         }
 
@@ -182,8 +183,9 @@ export default function Background() {
           --gradient-glow: radial-gradient(ellipse 70% 50% at 50% 0%, #12184a 0%, #000319 65%);
           background: var(--bg-base);
           flex: 1;
+          min-height: 100vh;
           position: relative;
-          overflow: hidden;
+          overflow: visible;
           display: flex;
           flex-direction: column;
         }
@@ -221,6 +223,7 @@ export default function Background() {
           display: flex;
           flex: 1;
           flex-grow: 1;
+          min-height: 100vh;
           position: relative;
           overflow: hidden;
         }
@@ -268,9 +271,10 @@ export default function Background() {
           z-index: 1;
         }
 
-        /* Vertical timeline strip on far left */
+        /* Vertical timeline strip on far left — fixed so it stays
+           visible the whole way down the page, not just in the hero */
         .hero-timeline {
-          position: absolute;
+          position: fixed;
           left: 0;
           top: 0;
           bottom: 0;
@@ -280,7 +284,8 @@ export default function Background() {
           justify-content: space-evenly;
           padding: 16px 0;
           border-right: 1px solid rgba(26, 31, 46, 0.16);
-          z-index: 2;
+          background: #b0b4ae;
+          z-index: 20;
         }
 
         .hero-timeline-item {
@@ -403,11 +408,12 @@ export default function Background() {
           transform: translateY(-4px);
         }
 
-        /* W. branding box */
+        /* W. branding box — fixed so it stays visible while scrolling.
+           top offset clears the 160px navbar so it doesn't overlap it. */
         .hero-branding {
-          position: absolute;
+          position: fixed;
           right: 0;
-          top: 0;
+          top: 160px;
           background: #1a1c1f;
           color: #ffffff;
           font-family: 'JetBrains Mono', monospace;
@@ -415,12 +421,12 @@ export default function Background() {
           font-size: 1.05rem;
           padding: 13px 15px;
           letter-spacing: -0.02em;
-          z-index: 6;
+          z-index: 21;
         }
 
-        /* Nominee side badge */
+        /* Nominee side badge — fixed so it stays visible while scrolling */
         .hero-nominee {
-          position: absolute;
+          position: fixed;
           right: 0;
           top: 50%;
           transform: translateY(-50%);
@@ -434,17 +440,18 @@ export default function Background() {
           padding: 14px 7px;
           letter-spacing: 0.14em;
           text-transform: uppercase;
-          z-index: 5;
+          z-index: 20;
         }
 
-        /* Right-side action icon strip */
+        /* Right-side action icon strip — fixed so it stays visible
+           while scrolling */
         .hero-actions {
-          position: absolute;
+          position: fixed;
           right: 0;
           bottom: 80px;
           display: flex;
           flex-direction: column;
-          z-index: 5;
+          z-index: 20;
         }
 
         .hero-action-btn {
@@ -480,6 +487,110 @@ export default function Background() {
           background: rgba(26, 31, 46, 0.3);
           z-index: 4;
         }
+
+        /* Grey region below the hero holding the AI Experts content.
+           No longer force-grows via flex or a huge min-height — the
+           content itself determines the height now. flex-shrink: 0
+           keeps it from ever being squeezed by hero-section. */
+        .hero-bleed-spacer {
+          flex: 0 0 auto;
+          width: 100%;
+          background: #b0b4ae;
+          min-height: 300px;
+        }
+
+        /* ── AI Experts section (lives inside the grey bleed area) ── */
+        .ai-experts {
+          position: relative;
+          width: 100%;
+          /* Clears the fixed left timeline strip (26px) and the fixed
+             right icon rail so text never sits underneath them */
+          padding: 40px 90px 40px 46px;
+          box-sizing: border-box;
+        }
+
+        .ai-experts-header {
+          display: flex;
+          width: 100%;
+          border-bottom: 1px dashed rgba(26, 31, 46, 0.35);
+        }
+
+        .ai-experts-header-white {
+          display: flex;
+          width: 65%;
+          background: #ffffff;
+        }
+
+        .ai-experts-title-cell {
+          flex: 1.6;
+          padding: 22px 28px;
+          display: flex;
+          align-items: center;
+        }
+
+        .ai-experts-title {
+          margin: 0;
+          font-family: 'JetBrains Mono', monospace;
+          font-weight: 800;
+          font-size: 2.1rem;
+          letter-spacing: -0.01em;
+          color: #1a1f2e;
+          text-transform: uppercase;
+        }
+
+        .ai-experts-title-cell-empty {
+          flex: 1;
+          border-left: 1px solid rgba(26, 31, 46, 0.15);
+        }
+
+        .ai-experts-body {
+          padding-top: 32px;
+          padding-bottom: 40px;
+        }
+
+        .ai-experts-body p {
+          margin: 0;
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 1.15rem;
+          line-height: 1.85;
+          color: #2b2f36;
+          text-align: justify;
+          max-width: 1080px;
+        }
+
+        .ai-experts-divider-bar {
+          width: 100%;
+          height: 6px;
+          background: #16181c;
+        }
+
+        .ai-experts-footer {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 28px;
+          padding: 22px 0;
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 0.72rem;
+          letter-spacing: 0.12em;
+          color: #33363c;
+        }
+
+        .ai-experts-footer a {
+          color: #33363c;
+          text-decoration: none;
+          transition: color 0.2s ease;
+        }
+
+        .ai-experts-footer a:hover {
+          color: #1a1f2e;
+        }
+
+        @media (max-width: 900px) {
+          .ai-experts { padding: 30px 60px 30px 46px; }
+          .ai-experts-header-white { width: 100%; }
+          .ai-experts-title { font-size: 1.5rem; }
+        }
       `}</style>
 
       <Navbar />
@@ -511,7 +622,7 @@ export default function Background() {
         {/* HOME accent badge */}
         <div className="hero-accent-bar">HOME</div>
 
-        {/* ── Left grey panel ── */}
+        {/* ── Left grey panel (bleeds below the right panel) ── */}
         <div className="hero-left">
 
           {/* Vertical timeline strip */}
@@ -566,6 +677,43 @@ export default function Background() {
         </div>
 
       </div>
+
+      {/* Grey bleed area — now holds the AI Experts section instead of
+          being empty. min-height keeps the grey going even if the
+          content here is shorter than a full screen. */}
+      <section className="hero-bleed-spacer ai-experts" id="about">
+
+        <div className="ai-experts-header">
+          <div className="ai-experts-header-white">
+            <div className="ai-experts-title-cell">
+              <h2 className="ai-experts-title">AI Experts</h2>
+            </div>
+            <div className="ai-experts-title-cell-empty" />
+          </div>
+        </div>
+
+        <div className="ai-experts-body">
+          <p>
+            AI is transforming how software is designed, built, and maintained
+            — and we stay at the cutting edge of that evolution. Our AI
+            Experts continuously adopt the latest advancements in AI-powered
+            development to deliver software that is faster to build, easier
+            to maintain, and more cost-effective. By leveraging AI throughout
+            the development lifecycle, we optimize every solution for
+            performance, security, standards compliance, and scalability. The
+            result is future-ready software that reduces technical debt,
+            accelerates innovation, and grows seamlessly with your business.
+          </p>
+        </div>
+
+        <div className="ai-experts-divider-bar" />
+
+        <footer className="ai-experts-footer">
+          <span>©2026</span>
+          <a href="#terms">TERMS</a>
+          <a href="#privacy">PRIVACY POLICY</a>
+        </footer>
+      </section>
     </div>
   )
 }
