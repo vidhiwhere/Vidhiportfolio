@@ -1,3 +1,5 @@
+import { useLayoutEffect, useRef } from 'react'
+
 const LINKS = [
   { label: 'Home', href: '#home' },
   { label: 'Projects', href: '#projects' },
@@ -6,8 +8,31 @@ const LINKS = [
 ]
 
 export default function Navbar() {
+  const navRef = useRef(null)
+
+  // Measure the navbar's real height and publish it as a CSS variable
+  // on :root so any other component can align to it without guessing.
+  useLayoutEffect(() => {
+    const el = navRef.current
+    if (!el) return
+
+    const updateHeight = () => {
+      document.documentElement.style.setProperty(
+        '--navbar-height',
+        `${el.offsetHeight}px`
+      )
+    }
+
+    updateHeight()
+
+    const ro = new ResizeObserver(updateHeight)
+    ro.observe(el)
+
+    return () => ro.disconnect()
+  }, [])
+
   return (
-    <nav className="navbar">
+    <nav className="navbar" ref={navRef}>
       <style>{`
         .navbar {
           display: flex;

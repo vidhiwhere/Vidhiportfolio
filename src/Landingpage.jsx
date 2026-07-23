@@ -38,6 +38,16 @@ export default function Background() {
       <style>{`
         /* ── Base ── */
         .bg-root {
+          /*
+            Fallback value only — used for the first paint before
+            Navbar's useLayoutEffect runs, and as a safety net if
+            Navbar is ever removed. The real value is set on
+            document.documentElement by Navbar itself, so this
+            component never needs to know the navbar's height —
+            it just reads whatever Navbar reports.
+          */
+          --navbar-height: 220px;
+
           --bg-base: #000319;
           --gradient-glow: radial-gradient(ellipse 70% 50% at 50% 0%, #12184a 0%, #000319 65%);
           background: var(--bg-base);
@@ -87,16 +97,19 @@ export default function Background() {
           overflow: hidden;
         }
 
-        /* Giant editorial bleed text — positioned over both panels */
+        /* Giant editorial bleed text — positioned over both panels.
+           This sits inside the normal document flow of hero-section,
+           which already starts *after* the sticky navbar, so it does
+           NOT need to reference --navbar-height itself. */
         .hero-giant-text {
           position: absolute;
           top: 75px;
-          left: -12px;                    /* slight left bleed */
+          left: -12px;
           white-space: nowrap;
           font-family: 'JetBrains Mono', monospace;
           font-size: 9.5vw;
           font-weight: 900;
-          color: #1a1f2e;                 /* dark on gray = visible; dark on dark = fades */
+          color: #1a1f2e;
           line-height: 0.82;
           letter-spacing: -0.03em;
           z-index: 3;
@@ -130,12 +143,15 @@ export default function Background() {
           z-index: 1;
         }
 
-        /* Vertical timeline strip on far left — fixed so it stays
-           visible the whole way down the page, not just in the hero */
+        /* Vertical timeline strip on far left — position: fixed means
+           this ignores document flow entirely, so it MUST be offset
+           by the navbar's real height or its top item(s) render
+           underneath the sticky navbar. Now reads the live variable
+           instead of assuming top: 0. */
         .hero-timeline {
           position: fixed;
           left: 0;
-          top: 0;
+          top: var(--navbar-height);
           bottom: 0;
           width: 26px;
           display: flex;
@@ -230,7 +246,8 @@ export default function Background() {
           z-index: 1;
         }
 
-        /* Vertical pill tab navigation */
+        /* Vertical pill tab navigation — inside hero-section's flow,
+           already below the navbar, so no variable needed here. */
         .hero-tabs {
           position: absolute;
           right: 50px;
@@ -267,12 +284,12 @@ export default function Background() {
           transform: translateY(-4px);
         }
 
-        /* W. branding box — fixed so it stays visible while scrolling.
-           top offset clears the 220px navbar so it doesn't overlap it. */
+        /* W. branding box — position: fixed, so it MUST use the live
+           navbar height rather than a hardcoded guess. */
         .hero-branding {
           position: fixed;
           right: 0;
-          top: 220px;
+          top: var(--navbar-height);
           background: #1a1c1f;
           color: #ffffff;
           font-family: 'JetBrains Mono', monospace;
@@ -283,7 +300,8 @@ export default function Background() {
           z-index: 21;
         }
 
-        /* Nominee side badge — fixed so it stays visible while scrolling */
+        /* Nominee side badge — vertically centered via transform, so
+           it doesn't depend on navbar height at all. Left as-is. */
         .hero-nominee {
           position: fixed;
           right: 0;
@@ -302,8 +320,8 @@ export default function Background() {
           z-index: 20;
         }
 
-        /* Right-side action icon strip — fixed so it stays visible
-           while scrolling */
+        /* Right-side action icon strip — anchored to bottom, so it
+           doesn't depend on navbar height either. Left as-is. */
         .hero-actions {
           position: fixed;
           right: 0;
@@ -347,10 +365,6 @@ export default function Background() {
           z-index: 4;
         }
 
-        /* Grey region below the hero holding the AI Experts content.
-           No longer force-grows via flex or a huge min-height — the
-           content itself determines the height now. flex-shrink: 0
-           keeps it from ever being squeezed by hero-section. */
         .hero-bleed-spacer {
           flex: 0 0 auto;
           width: 100%;
@@ -358,12 +372,10 @@ export default function Background() {
           min-height: 300px;
         }
 
-        /* ── AI Experts section (lives inside the grey bleed area) ── */
+        /* ── AI Experts section ── */
         .ai-experts {
           position: relative;
           width: 100%;
-          /* Clears the fixed left timeline strip (26px) and the fixed
-             right icon rail so text never sits underneath them */
           padding: 40px 90px 40px 46px;
           box-sizing: border-box;
         }
@@ -473,28 +485,22 @@ export default function Background() {
       {/* ── Hero Layout ── */}
       <div className="hero-section">
 
-        {/* Giant editorial text — bleeds across both panels */}
         <div className="hero-giant-text" aria-hidden="true">
           CREATIVE DEVELOPER
         </div>
 
-        {/* HOME accent badge */}
         <div className="hero-accent-bar">HOME</div>
 
-        {/* ── Left grey panel (bleeds below the right panel) ── */}
         <div className="hero-left">
 
-          {/* Vertical timeline strip */}
           <div className="hero-timeline">
             {TIMELINE.map((t, i) => (
               <span key={i} className="hero-timeline-item">{t}</span>
             ))}
           </div>
 
-          {/* Spinning gear decoration */}
           <div className="hero-gear" aria-hidden="true">⚙</div>
 
-          {/* Body content pinned to bottom */}
           <div className="hero-content">
             <div className="hero-body-text">
               A passionate developer crafting beautiful, high-performance
@@ -510,23 +516,18 @@ export default function Background() {
           </div>
         </div>
 
-        {/* ── Right dark panel (stars show through) ── */}
         <div className="hero-right">
 
-          {/* Vertical tab navigation */}
           <div className="hero-tabs">
             {TABS.map((tab) => (
               <a className="hero-tab" href="#" key={tab}>{tab}</a>
             ))}
           </div>
 
-          {/* Branding mark */}
           <div className="hero-branding">W.</div>
 
-          {/* Nominee side badge */}
           <div className="hero-nominee">Nominee</div>
 
-          {/* Action icon strip */}
           <div className="hero-actions">
             <div className="hero-action-btn">⟨/⟩</div>
             <div className="hero-action-btn">↺</div>
@@ -537,9 +538,6 @@ export default function Background() {
 
       </div>
 
-      {/* Grey bleed area — now holds the AI Experts section instead of
-          being empty. min-height keeps the grey going even if the
-          content here is shorter than a full screen. */}
       <section className="hero-bleed-spacer ai-experts" id="about">
 
         <div className="ai-experts-header">

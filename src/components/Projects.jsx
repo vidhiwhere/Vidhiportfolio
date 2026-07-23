@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import Navbar from "./Navbar";
 
 const STORE_KEY = "projects-list";
 const SEED_FLAG_KEY = "seed-real-v1";
@@ -162,33 +163,7 @@ export default function ProjectsPage() {
       `}</style>
 
             {/* NAV */}
-            <div style={{ background: "var(--bg-dark)", color: "var(--paper)", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 32px", flexWrap: "wrap", gap: 12, borderBottom: "4px solid var(--accent)" }}>
-                <div style={{ fontFamily: fontDisplay, fontSize: 26, letterSpacing: 1, display: "flex", alignItems: "center", gap: 6 }}>
-                    my<span style={{ color: "var(--accent)" }}>.projects</span>
-                </div>
-                <div style={{ display: "flex", gap: 28, flexWrap: "wrap" }}>
-                    {CATS.map((c) => (
-                        <button
-                            key={c}
-                            className="rp-navbtn"
-                            onClick={() => setActiveCat(c)}
-                            style={{
-                                background: "none",
-                                border: "none",
-                                color: activeCat === c ? "var(--accent)" : "var(--paper)",
-                                fontFamily: fontMono,
-                                fontSize: 13,
-                                letterSpacing: 2,
-                                cursor: "pointer",
-                                padding: "6px 4px",
-                                borderBottom: activeCat === c ? "2px solid var(--accent)" : "2px solid transparent",
-                            }}
-                        >
-                            {c === "APP" ? "APPS" : c === "GAME" ? "GAMES" : c}
-                        </button>
-                    ))}
-                </div>
-            </div>
+            <Navbar />
 
             {/* BREADCRUMB */}
             <div style={{ display: "flex", height: 44 }}>
