@@ -1,10 +1,10 @@
 import { useLayoutEffect, useRef } from 'react'
 
 const LINKS = [
-  { label: 'Home', href: '#home' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'About', href: '#about' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Home', href: '/' },
+  { label: 'Projects', href: '/projects' },
+  { label: 'About', href: '/about' },
+  { label: 'Contact', href: '/contact' },
 ]
 
 export default function Navbar() {
@@ -38,7 +38,7 @@ export default function Navbar() {
           display: flex;
           align-items: stretch;
           width: 100%;
-          height: 220px;
+          height: 110px;
           font-family: 'JetBrains Mono', monospace;
           position: sticky;
           top: 0;
@@ -67,7 +67,7 @@ export default function Navbar() {
           line-height: 1;
           display: flex;
           align-items: center;
-          gap: 4px;
+          gap: 0.35em;
         }
 
         .navbar-logo .logo-highlight {
@@ -76,8 +76,6 @@ export default function Navbar() {
 
         .navbar-logo .logo-accent {
           color: #2b2e33;
-          display: inline-flex;
-          align-items: center;
         }
 
         .navbar-logo .logo-dot {
@@ -158,11 +156,10 @@ export default function Navbar() {
 
       <div className="navbar-logo-block">
         <div className="navbar-logo">
-          <span className="logo-highlight">binary</span>
-          <span className="logo-accent">
-            thinkers
-            <span className="logo-dot" />
-          </span>
+          <span className="logo-highlight">Hi</span>
+          <span className="logo-highlight">I</span>
+          <span className="logo-highlight">am</span>
+          <span className="logo-accent">Vidhi</span>
         </div>
       </div>
 

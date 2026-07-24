@@ -12,12 +12,12 @@ const STARS = Array.from({ length: 60 }, (_, i) => ({
 }))
 
 const TABS = [
-  'About Me',
-  'Projects',
-  'Skills',
-  'Experience',
-  'Contact',
-  'Blog',
+  { label: 'About Me', href: '/about' },
+  { label: 'Projects', href: '/projects' },
+  { label: 'Skills', href: '#skills' },
+  { label: 'Experience', href: '#experience' },
+  { label: 'Contact', href: '/contact' },
+  { label: 'Blog', href: '#blog' },
 ]
 
 const TIMELINE = ['2030', 'FUTURE', 'PRESENT', '2024', 'PAST', '2020']
@@ -198,10 +198,10 @@ export default function Background() {
         /* Body text + socials at bottom */
         .hero-content {
           flex: 1;
-          padding: 0 28px 34px 46px;
+          padding: calc(9.5vw + 90px) 28px 34px 46px;
           display: flex;
           flex-direction: column;
-          justify-content: flex-end;
+          justify-content: flex-start;
           gap: 18px;
         }
 
@@ -503,11 +503,7 @@ export default function Background() {
 
           <div className="hero-content">
             <div className="hero-body-text">
-              A passionate developer crafting beautiful, high-performance
-              digital experiences. From pixel-perfect interfaces to robust
-              back-end systems — I design and build software that makes a
-              difference. Specializing in React, Node.js, and modern web
-              technologies, turning creative ideas into interactive realities.
+              I'm a Computer Science undergraduate and frontend developer passionate about building modern, responsive, and user-centric web applications. I enjoy transforming ideas into intuitive digital experiences using React, Next.js, and modern frontend technologies. Beyond crafting clean interfaces, I love working on AI-powered applications and integrating APIs to create impactful solutions. I'm always eager to learn, collaborate, and build products that combine great design with meaningful functionality
             </div>
             <div className="hero-socials">
               <a className="hero-social-btn" href="#" title="GitHub">GH</a>
@@ -520,7 +516,7 @@ export default function Background() {
 
           <div className="hero-tabs">
             {TABS.map((tab) => (
-              <a className="hero-tab" href="#" key={tab}>{tab}</a>
+              <a className="hero-tab" href={tab.href} key={tab.label}>{tab.label}</a>
             ))}
           </div>
 
@@ -551,15 +547,7 @@ export default function Background() {
 
         <div className="ai-experts-body">
           <p>
-            AI is transforming how software is designed, built, and maintained
-            — and we stay at the cutting edge of that evolution. Our AI
-            Experts continuously adopt the latest advancements in AI-powered
-            development to deliver software that is faster to build, easier
-            to maintain, and more cost-effective. By leveraging AI throughout
-            the development lifecycle, we optimize every solution for
-            performance, security, standards compliance, and scalability. The
-            result is future-ready software that reduces technical debt,
-            accelerates innovation, and grows seamlessly with your business.
+            I believe technology should solve real problems while remaining simple, accessible, and enjoyable to use. My approach to development goes beyond writing code—I focus on understanding the user's perspective, designing intuitive interfaces, and building applications that are reliable, scalable, and impactful. I enjoy learning new technologies, but I believe the best tool is the one that fits the problem, not the newest trend. Whether I'm creating AI-powered applications or modern web interfaces, I strive to write clean, maintainable code and continuously improve through collaboration, feedback, and hands-on experience.
           </p>
         </div>
 

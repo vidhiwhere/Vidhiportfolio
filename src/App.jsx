@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Loader from './Loader'
 import LandingPage from './Landingpage'
 import ProjectsPage from './components/Projects'
+import ContactPage from './components/contact'
+import AboutPage from './components/About'
 
 function HomeWithLoader() {
   const [loading, setLoading] = useState(true)
@@ -22,6 +24,8 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomeWithLoader />} />
         <Route path="/projects" element={<ProjectsPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/about" element={<AboutPage />} />
       </Routes>
     </BrowserRouter>
   )

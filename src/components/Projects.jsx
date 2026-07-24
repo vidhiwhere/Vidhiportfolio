@@ -2,9 +2,10 @@ import React, { useState, useEffect, useCallback } from "react";
 import Navbar from "./Navbar";
 
 const STORE_KEY = "projects-list";
-const SEED_FLAG_KEY = "seed-real-v1";
+const SEED_FLAG_KEY = "seed-real-v2";
 
 const REAL_PROJECTS = [
+    { name: "Portfolio Website", cat: "WEB", status: "SHIPPED", year: "2026", icon: "🌐", desc: "A modern, high-performance developer portfolio featuring custom editorial layout, interactive timeline, dynamic animations, projects showcase, and integrated contact dossier.", tags: ["React", "Vite", "JavaScript", "CSS3"], link: "/" },
     { name: "Tic Tac Toe", cat: "GAME", status: "SHIPPED", year: "2026", icon: "🎮", desc: "A fun, interactive two-player Tic Tac Toe with a modern UI, emoji markers, a countdown timer, and live score tracking.", tags: ["HTML5", "CSS3", "JavaScript"], link: "https://tic-tac-toe-self-gamma-80.vercel.app/" },
     { name: "Palmelo", cat: "AI", status: "SHIPPED", year: "2026", icon: "🤟", desc: "A real-time sign language to speech translator, turning hand gestures into spoken words on the fly.", tags: ["AI", "Real-time", "Accessibility"], link: "https://palmelonew.vercel.app/" },
     { name: "ToxIQ", cat: "AI", status: "SHIPPED", year: "2026", icon: "🧪", desc: "Predicts whether a drug molecule is toxic across 12 biological assays from the Tox21 benchmark — in seconds, from just a SMILES string. Includes a premium interface with interactive 3D elements, detailed toxicity reports, and an integrated AI assistant for pharmacological context.", tags: ["AI", "Bioinformatics", "3D"], link: "https://github.com/vidhiwhere/TOXIQ" },
@@ -287,7 +288,7 @@ export default function ProjectsPage() {
                                             {p.link ? (
                                                 <a
                                                     href={p.link}
-                                                    target="_blank"
+                                                    target={p.link.startsWith("http") ? "_blank" : "_self"}
                                                     rel="noopener noreferrer"
                                                     style={{ fontFamily: fontMono, fontSize: 12, letterSpacing: 1, color: "var(--ink)", textDecoration: "none", borderBottom: "2px solid var(--accent)" }}
                                                 >
